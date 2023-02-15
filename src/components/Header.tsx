@@ -1,21 +1,33 @@
+import { menus, siteTitle } from "../config";
+
 const Header = () => {
+  // 渲染静态菜单
+  const _renderStaticMenus = () => {
+    return menus.map((menu) => (
+      <li
+        className="px-4 py-2 text-sm border-b-transparent border-b  hover:border-primary"
+        key={menu.id}
+      >
+        {menu.name}
+      </li>
+    ));
+  };
   return (
     <header className="h-12 bg-white px-6 group cursor-pointer dark:bg-gray-800">
       <div className="w-full h-12 flex justify-center items-center">
-        <h2>博客-忆往昔</h2>
+        <h2 className="dark:text-white">{siteTitle}</h2>
       </div>
       <div
-        className="flex items-center justify-between h-12
-        fixed -top-12 left-0 w-full z-50
-        group-hover:top-0 px-6 bg-white 
+        className="flex items-center justify-between h-12 
+        fixed left-0 w-full z-50 
+        transition-all -top-12 opacity-0
+        group-hover:top-0 group-hover:opacity-100
+        px-6 bg-white 
         dark:bg-gray-800"
       >
-        <h2>博客-忆往昔</h2>
-        <ul className="flex items-center">
-          <li>首页</li>
-          <li>文章</li>
-          <li>标签</li>
-          <li>关于</li>
+        <h2 className="dark:text-white">{siteTitle}</h2>
+        <ul className="flex items-center dark:text-white">
+          {_renderStaticMenus()}
         </ul>
       </div>
     </header>
