@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BlogList from "../../components/ui/blog/List";
+import Profile from "../../components/ui/Profile";
+
+import { getCollection, getEntryBySlug } from "astro:content";
+const allBlogPosts = await getCollection("blog", ({ data }) => {
+  return data.isDraft !== true;
+});
+
+console.log("-----------11111", allBlogPosts);
+---
+
+<Layout title="index">
+  <div class="grid grid-cols-3 gap-6 max-w-screen-lg mx-auto pt-6">
+    <BlogList className="col-span-2" blogs={allBlogPosts} />
+    <Profile className="col-auto" />
+  </div>
+</Layout>

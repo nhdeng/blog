@@ -1,0 +1,34 @@
+---
+import { getCollection, getEntryBySlug } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+// 动态路由注册
+export async function getStaticPaths() {
+  // 获取所有博客数据
+  const allBlogPosts = await getCollection("blog", ({ data }) => {
+    return data.isDraft !== true;
+  });
+  const staticPaths = allBlogPosts.map((blogPosts) => {
+    return {
+      params: { id: blogPosts.id },
+      props: {
+        data: blogPosts,
+      },
+    };
+  });
+  return staticPaths;
+}
+// 获取当前路由参数
+const { id } = Astro.params;
+const { data } = Astro.props;
+---
+
+<Layout title={id || ""}>
+  <div class="max-w-screen-lg mx-auto">
+    <div class="flex">
+      {data.body}
+    </div>
+    <div>
+      this is {id} blog detail
+    </div>
+  </div>
+</Layout>

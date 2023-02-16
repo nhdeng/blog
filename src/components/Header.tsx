@@ -8,12 +8,14 @@ const Header = () => {
         className="px-4 py-2 text-sm border-b-transparent border-b  hover:border-gray-700"
         key={menu.id}
       >
-        {menu.name}
+        <a className="w-full h-full" href={menu.path}>
+          {menu.name}
+        </a>
       </li>
     ));
   };
   return (
-    <header className="h-16 bg-white px-6 group cursor-pointer dark:bg-gray-800">
+    <header className="h-16 bg-white px-6 group cursor-pointer dark:bg-gray-800 shadow-md">
       <div className="w-full h-16 flex justify-center items-center">
         <h2 className="dark:text-white">{siteTitle}</h2>
       </div>
