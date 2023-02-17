@@ -7,8 +7,6 @@ import { getCollection, getEntryBySlug } from "astro:content";
 const allBlogPosts = await getCollection("blog", ({ data }) => {
   return data.isDraft !== true;
 });
-
-console.log("-----------11111", allBlogPosts);
 ---
 
 <Layout title="index">

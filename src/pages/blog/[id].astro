@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntryBySlug } from "astro:content";
+import { getCollection  } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Markdown from '../../components/ui/blog/Markdown'
 // 动态路由注册
@@ -24,8 +24,8 @@ const { data } = Astro.props;
 ---
 
 <Layout title={id || ""}>
- 
   <div class="max-w-screen-lg mx-auto">
     <Markdown markdown={data.body} />
   </div>
 </Layout>
+
