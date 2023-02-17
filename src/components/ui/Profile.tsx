@@ -11,18 +11,20 @@ const Profile: React.FC<IProps> = (props) => {
         />
         <h2 className="text-gray-500 py-3">nhdeng</h2>
 
-        <div className="flex justify-between w-full px-8 py-6">
+        <div className="flex justify-between w-full px-10 py-6">
           <div className="flex flex-col items-center">
-            <span className="font-semibold">文章</span>
-            <span className="text-gray-600">42</span>
+            <span className="font-semibold text-gray-600">文章</span>
+            <span className="text-gray-700 text-sm  mt-1">42</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="font-semibold">标签</span>
-            <span className="text-gray-600">42</span>
+            <span className="font-semibold  text-gray-600">标签</span>
+            <span className="text-gray-700 text-sm  mt-1">42</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="font-semibold">归档</span>
-            <span className="text-gray-600">42</span>
+            <span className="font-semibold  first-letter: text-gray-600">
+              归档
+            </span>
+            <span className="text-gray-700 text-sm mt-1">42</span>
           </div>
         </div>
 
@@ -39,7 +41,7 @@ const Profile: React.FC<IProps> = (props) => {
         <ul className="flex flex-col w-full">
           <li className="px-4 mb-4">
             <a href="">
-              <h2 className="line-clamp-1">
+              <h2 className="line-clamp-1 text-gray-700">
                 React技术机密React技术机密React技术
               </h2>
               <p className="text-gray-400 text-sm">2023-02-13</p>
@@ -47,10 +49,10 @@ const Profile: React.FC<IProps> = (props) => {
           </li>
           <li className="px-4 mb-4">
             <a href="">
-              <h2 className="line-clamp-1">
+              <div className="line-clamp-1 text-gray-700">
                 React技术机密React技术机密React技术
-              </h2>
-              <p className="text-gray-400 text-sm">2023-02-13</p>
+              </div>
+              <p className="text-gray-400 text-sm mt-1">2023-02-13</p>
             </a>
           </li>
         </ul>

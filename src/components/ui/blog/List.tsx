@@ -11,8 +11,8 @@ const BlogList: React.FC<IProps> = (props) => {
   const _renderTags = (tags: string[]) => {
     return tags.map((tag) => {
       return (
-        <div key={"tag"} className="mr-2 text-sm text-gray-700">
-          <i className="iconfont icon-biaoqian"></i>
+        <div key={"tag"} className="mr-3 text-sm text-gray-600">
+          <i className="iconfont icon-biaoqian text-xs"></i>
           <span>{tag}</span>
         </div>
       );
@@ -39,12 +39,14 @@ const BlogList: React.FC<IProps> = (props) => {
             )}
           </div>
           <div className="flex flex-col justify-between pl-6 pt-4 pr-4 pb-2 w-[calc(100%-240px)]">
-            <h2 className="text-2xl font-medium">{blog.data.title}</h2>
-            <div className="">
+            <div className="text-2xl font-medium text-gray-700">
+              {blog.data.title}
+            </div>
+            <div>
               <p className="text-gray-600 leading-5 text-justify line-clamp-2 text-sm">
                 {blog.data.desc}
               </p>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-3 text-sm text-gray-500">
                 {blog.data.publishDate}
               </p>
               <div className="flex flex-wrap items-center">
