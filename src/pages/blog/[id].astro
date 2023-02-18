@@ -19,12 +19,12 @@ export async function getStaticPaths() {
   return staticPaths;
 }
 // 获取当前路由参数
-const { id } = Astro.params;
+// const { id } = Astro.params;
 const { data } = Astro.props;
 ---
 
-<Layout title={id || ""}>
-  <div class="max-w-screen-lg mx-auto overflow-hidden">
+<Layout title={data.data.title || ""}>
+  <div class="max-w-screen-lg mx-auto mt-6 overflow-hidden p-6 bg-white">
     <Markdown markdown={data.body} />
   </div>
 </Layout>

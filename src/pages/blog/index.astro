@@ -26,9 +26,9 @@ const getProfileData = () => {
 const profileProps = getProfileData();
 ---
 
-<Layout title="index">
-  <div class="grid grid-cols-3 gap-6 max-w-screen-lg mx-auto pt-6">
-    <BlogList className="col-span-2" blogs={allBlogPosts} />
-    <Profile className="col-auto" {...profileProps} />
+<Layout title="">
+  <div class="grid grid-cols-3 gap-6 max-w-screen-lg mx-auto pt-6 px-4">
+    <BlogList className="col-span-3 md:col-span-2" blogs={allBlogPosts} />
+    <Profile className="hidden md:block md:col-auto" {...profileProps} />
   </div>
 </Layout>
