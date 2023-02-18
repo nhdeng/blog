@@ -6,11 +6,7 @@ tags: ["web"]
 publishDate: "2023-02-15 19:20"
 author: "dengnanhao"
 authorContact: "dengnanhao@163.com"
-image:
-  {
-    alt: "cover",
-    src: "https://tse2-mm.cn.bing.net/th/id/OIP-C.O1CyeKs-ES3CZTfWbTjA2gHaEo?pid=ImgDet&rs=1",
-  }
+image: { alt: "cover", src: "/images/avatar.jpg" }
 ---
 
 # 测试 demo 文件

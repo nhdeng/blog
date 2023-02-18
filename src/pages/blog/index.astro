@@ -1,17 +1,34 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import BlogList from "../../components/ui/blog/List";
-import Profile from "../../components/ui/Profile";
+import Profile, { BlogPosts } from "../../components/ui/Profile";
 
 import { getCollection, getEntryBySlug } from "astro:content";
 const allBlogPosts = await getCollection("blog", ({ data }) => {
   return data.isDraft !== true;
 });
+
+const getProfileData = () => {
+  const postsNumber = allBlogPosts.length || 0;
+  let tags: string[] = [];
+  let collections: string[] = [];
+  let topPosts: BlogPosts[] = [];
+  allBlogPosts.forEach((item: BlogPosts, index: number) => {
+    const { data, collection } = item;
+    tags = [...tags, ...data.tags];
+    collections = [...collections, ...[collection]];
+    if (index < 5) {
+      topPosts.push(item);
+    }
+  });
+  return { postsNumber, tags, collections, topPosts };
+};
+const profileProps = getProfileData();
 ---
 
 <Layout title="index">
   <div class="grid grid-cols-3 gap-6 max-w-screen-lg mx-auto pt-6">
     <BlogList className="col-span-2" blogs={allBlogPosts} />
-    <Profile className="col-auto" />
+    <Profile className="col-auto" {...profileProps} />
   </div>
 </Layout>
