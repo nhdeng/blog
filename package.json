@@ -1,28 +1,43 @@
 {
-	"name": "afraid-axis",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro"
-	},
-	"dependencies": {
-		"@astrojs/react": "^2.0.2",
-		"@astrojs/tailwind": "^3.0.1",
-		"@tailwindcss/line-clamp": "^0.4.2",
-		"@types/react": "^18.0.21",
-		"@types/react-dom": "^18.0.6",
-		"astro": "^2.0.4",
-		"react": "^18.0.0",
-		"react-dom": "^18.0.0",
-		"react-markdown": "^8.0.5",
-		"react-syntax-highlighter": "^15.5.0",
-		"tailwindcss": "^3.0.24"
-	},
-	"devDependencies": {
-		"@types/react-syntax-highlighter": "^15.5.6"
-	}
+  "name": "blog",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^2.0.2",
+    "@astrojs/tailwind": "^3.0.1",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "astro": "^2.0.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-markdown": "^8.0.5",
+    "react-syntax-highlighter": "^15.5.0",
+    "tailwindcss": "^3.0.24"
+  },
+  "devDependencies": {
+    "@types/react-syntax-highlighter": "^15.5.6"
+  },
+  "description": "``` npm create astro@latest -- --template basics ```",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nhdeng/blog.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "dengnanhao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nhdeng/blog/issues"
+  },
+  "homepage": "https://github.com/nhdeng/blog#readme"
 }
