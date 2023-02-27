@@ -24,7 +24,7 @@ const BlogList: React.FC<IProps> = (props) => {
       return (
         <a
           key={blog.id}
-          className="flex flex-col w-full mb-6 shadow-sm rounded overflow-hidden bg-white hover:shadow-md cursor-pointer
+          className="flex flex-col w-full mb-6 shadow-sm rounded overflow-hidden bg-white hover:shadow-md cursor-pointer 
           md:flex-row"
           href={`/blog/${blog.id}`}
         >

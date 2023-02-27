@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="关于-nhdeng博客">
+  <div class="max-w-screen-lg mx-auto pt-6 px-4">
+    <!-- 个人信息 -->
+    <div class="flex flex-col justify-center items-center p-6 bg-white">
+      <img
+        src={"/images/avatar.jpg"}
+        alt="avatar"
+        class="w-20 h-20 rounded-full object-cover"
+      />
+      <div class="mt-1 text-sm text-gray-500">
+        世界上最重要的事，不在于我们在何处，而是在于我们朝着什么方向走。
+      </div>
+    </div>
+    <!-- 自我介绍 -->
+    <div class="flex flex-col mt-4 p-6 bg-white">
+      <h1 class="mb-1 font-medium">个人介绍</h1>
+      <div class="text-gray-600">
+        一名{
+          new Date().getFullYear() - 2017
+        }年的web前端开发者，热爱编码，看书，目前就职于<a
+          class="hover:underline"
+          href="https://hddata.cn"
+          target="_blank">合肥高维数据技术有限公司</a
+        >。
+      </div>
+    </div>
+    <!-- 核心技能 -->
+    <div class="flex flex-col mt-4 p-6 bg-white">
+      <h1 class="mb-1 font-medium">核心技能</h1>
+      <ul>
+        <li class="text-gray-600">1.react</li>
+        <li class="text-gray-600">2.vue</li>
+        <li class="text-gray-600">3.typescript</li>
+        <li class="text-gray-600">4.next.js</li>
+        <li class="text-gray-600">5.electron</li>
+        <li class="text-gray-600">6.vite</li>
+        <li class="text-gray-600">7.webpack</li>
+        <li class="text-gray-600">8.nodejs</li>
+        <li class="text-gray-600">9.golang</li>
+      </ul>
+    </div>
+    <!-- 联系方式 -->
+    <div class="flex flex-col mt-4 p-6 bg-white">
+      <h1 class="mb-1 font-medium">联系方式</h1>
+      <div class="text-gray-600">Email：dengnanhao@163.com</div> 
+    </div>
+  </div>
+</Layout>

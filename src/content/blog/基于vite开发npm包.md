@@ -1,3 +1,14 @@
+---
+title: "基于 Vite 构建 React npm 包"
+desc: "本文主要记录自己使用 vite 开发 react npm 包的全过程，便于自己查阅。"
+isDraft: false
+tags: ["web", "vite"]
+publishDate: "2023-02-27 08:58"
+author: "dengnanhao"
+authorContact: "dengnanhao@163.com"
+image: { alt: "cover", src: "/images/avatar.jpg" }
+---
+
 # 基于 Vite 构建 React npm 包
 
 ## 前言

@@ -1,4 +1,5 @@
 ---
+import { uniq } from 'lodash-es'
 import Layout from "../../layouts/Layout.astro";
 import BlogList from "../../components/ui/blog/List";
 import Profile, { BlogPosts } from "../../components/ui/Profile";
@@ -15,8 +16,8 @@ const getProfileData = () => {
   let topPosts: BlogPosts[] = [];
   allBlogPosts.forEach((item: BlogPosts, index: number) => {
     const { data, collection } = item;
-    tags = [...tags, ...data.tags];
-    collections = [...collections, ...[collection]];
+    tags = uniq([...tags, ...data.tags]);
+    collections = uniq([...collections, ...[collection]]);
     if (index < 5) {
       topPosts.push(item);
     }

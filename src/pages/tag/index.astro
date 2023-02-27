@@ -1,0 +1,198 @@
+---
+import { uniq } from 'lodash-es'
+import Layout from "../../layouts/Layout.astro";
+
+import { getCollection } from "astro:content";
+const allBlogPosts = await getCollection("blog", ({ data }) => {
+  return data.isDraft !== true;
+});
+
+/**
+ * 获取0.9到1.5之间的随机数并且保留小数点后一位
+ * return string
+ */
+const getRandom = () => {
+    let flag = true
+    let value = 0
+    while(flag) {
+        value = Math.random() * 10
+        if (value > 1.5 | value < 0.9) {
+            flag = true
+        } else {
+            flag = false
+        }
+    }
+    return value.toFixed(1)
+} 
+
+/**
+ * 获取标签数据
+ * return Array {name：tagName, total:博客数量, zoom: tag大小}
+ */
+const getTagData = () => {
+  const postsNumber = allBlogPosts.length || 0;
+  let tags: string[] = [];
+  allBlogPosts.forEach((item: BlogPosts, index: number) => {
+    const { data, collection } = item;
+    tags = uniq([...tags, ...data.tags]);
+  });
+  const tagMap = new Map()
+  tags.forEach(tag => {
+    allBlogPosts.forEach((item: BlogPosts, index: number) => {
+        const { data, collection } = item;
+        const tArray = data.tags
+        if (!tagMap.has(tag)) {
+            tagMap.set(tag, 0)
+        }
+        if (tArray.includes(tag)) {
+            tagMap.set(tag, tagMap.get(tag) + 1)
+        }
+    }); 
+  })
+  const tagsData = []
+  tagMap.forEach((total, name) => {
+    tagsData.push({name,total,zoom: getRandom()})
+  })
+  return tagsData
+};
+const tagData = getTagData();
+---
+
+<Layout title="博客标签">
+    <div class="max-w-screen-lg mx-auto pt-6 px-4">
+      <div class="tagcloud04">
+        <ul>
+          {tagData.map((tag) => (
+            <li key={tag.name} style={{ zoom: tag.zoom }}>
+              <a href={`/tag/${tag.name}`}>{tag.name}</a>
+              <span>{tag.total}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+</Layout>
+
+<style>
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  background: rgb(105,155,200);
+background: -moz-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%, rgba(181,197,216,1) 57%);
+ background: -webkit-gradient(radial, top left, 0px, top left, 100%, color-stop(0%,rgba(105,155,200,1)), color-stop(57%,rgba(181,197,216,1)));
+ background: -webkit-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
+ background: -o-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
+ background: -ms-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
+ background: radial-gradient(ellipse at top left, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#699bc8', endColorstr='#b5c5d8',GradientType=1 );
+}
+div {
+  width: 480px;
+  margin: 5em auto 2.5em;
+  text-align:center;
+}
+div:first-child {
+  margin-top: 3em;
+}
+
+.tagcloud04 ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tagcloud04 ul li {
+  position: relative;
+  display: inline-block;
+    vertical-align: middle;
+  margin: .5em .5em 0 0;
+  padding: 0;
+}
+.tagcloud04 ul li a {
+  position: relative;
+  display: inline-block;
+  max-width: 100px;
+  height: 28px;
+  line-height: 28px;
+  padding: 0 1em;
+  background: #fff;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  word-wrap: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #333;
+  font-size: 13px;
+  text-decoration: none;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+.tagcloud04 ul li span {
+  position: absolute;
+  top: 0;
+  right: -10px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  background-color: #3498db;
+  border: 1px solid #3498db;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0;
+  -webkit-transition: .2s;
+  transition: .2s;
+  -webkit-transform: scale(.4);
+  transform: scale(.4);
+}
+.tagcloud04 ul li span::after {
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  content: '';
+  width: 0;
+  height: 0;
+  margin-top: -7px;
+  border-color: transparent #3498db transparent transparent;
+  border-style: solid;
+  border-width: 7px 14px 7px 0;
+}
+
+
+.tagcloud04 li span {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  background-color: #3498db;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+/*TAG*/
+.tagcloud04 ul li a:hover {
+  background-color: #727272;
+  border: 1px solid #727272;
+  color: #fff;
+}
+
+/*number*/
+.tagcloud04 ul li:hover span {
+  right: -26px;
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  background-color: #3498db;
+  color: #fff;
+}
+
+
+</style>
