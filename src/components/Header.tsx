@@ -30,7 +30,9 @@ const Header: React.FC<IProps> = ({ title = "" }) => {
         px-6 bg-white 
         dark:bg-gray-800"
       >
-        <div className="dark:text-white">{siteTitle}</div>
+        <a href="/blog" className="dark:text-white">
+          {siteTitle}
+        </a>
         <div className="flex items-center dark:text-white">
           {_renderStaticMenus()}
         </div>
