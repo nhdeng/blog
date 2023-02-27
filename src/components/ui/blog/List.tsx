@@ -24,22 +24,24 @@ const BlogList: React.FC<IProps> = (props) => {
       return (
         <a
           key={blog.id}
-          className="flex w-full mb-6 shadow-sm rounded-md overflow-hidden bg-white hover:shadow-md cursor-pointer"
+          className="flex flex-col w-full mb-6 shadow-sm rounded overflow-hidden bg-white hover:shadow-md cursor-pointer
+          md:flex-row"
           href={`/blog/${blog.id}`}
         >
-          <div className="w-60">
+          <div className="w-full md:w-60">
             {blog?.data?.image?.src && (
               <img
-                className="object-cover h-40"
-                width={240}
-                height={120}
+                className="object-cover w-full h-40 md:w-60"
                 src={blog?.data?.image?.src}
                 alt={blog?.data?.image?.alt}
               />
             )}
           </div>
-          <div className="flex flex-col justify-between pl-6 pt-4 pr-4 pb-2 w-[calc(100%-240px)]">
-            <div className="text-2xl font-medium text-gray-700">
+          <div
+            className="flex w-full flex-col justify-between px-2 py-2
+          md:pl-6 md:pt-4 md:pr-4 md:pb-2 md:w-[calc(100%-240px)]"
+          >
+            <div className="text-xl font-medium text-gray-700 mb-2 md:text-2xl">
               {blog.data.title}
             </div>
             <div>

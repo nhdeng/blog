@@ -1,6 +1,9 @@
 import { menus, siteTitle } from "../config";
+interface IProps {
+  title?: string;
+}
 
-const Header = () => {
+const Header: React.FC<IProps> = ({ title = "" }) => {
   // 渲染静态菜单
   const _renderStaticMenus = () => {
     return menus.map((menu) => (
@@ -17,7 +20,7 @@ const Header = () => {
   return (
     <header className="h-16 bg-white px-6 group cursor-pointer dark:bg-gray-800 shadow-md">
       <div className="w-full h-16 flex justify-center items-center">
-        <div className="dark:text-white">{siteTitle}</div>
+        <div className="dark:text-white">{title || siteTitle}</div>
       </div>
       <div
         className="flex items-center justify-between h-16 
