@@ -1,22 +1,29 @@
-# Astro Starter Kit: Basics
+# Blog
 
-```
-npm create astro@latest -- --template basics
-```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 效果展示
 
 ![basics](https://user-images.githubusercontent.com/4677417/186188965-73453154-fdec-4d6b-9c34-cb35c248ae5b.png)
 
+## 🧞 运行
 
-## 🚀 Project Structure
+根目录运行终端命令
 
-Inside of your Astro project, you'll see the following folders and files:
+```bash
+# 安装依赖
+pnpm i
 
+# 本地运行 localhost:3000
+pnpm dev
+
+# 构建生成包 ./dist/
+pnpm build
 ```
+
+## 🚀 项目结构
+
+在 Astro 项目中，您将看到以下文件夹和文件：
+
+```bash
 /
 ├── public/
 │   └── favicon.svg
@@ -30,24 +37,11 @@ Inside of your Astro project, you'll see the following folders and files:
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- 在`src/pages/`下的每一个`.astro` 或 `.md`后缀的文件都可以作为项目的路由
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- 在`src/components/`中放置 `React` 或 `.astro` 相关组件
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:3000`      |
-| `npm run build`        | Build your production site to `./dist/`          |
-| `npm run preview`      | Preview your build locally, before deploying     |
-| `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro --help` | Get help using the Astro CLI                     |
+- 所有静态文件防止 `public/`目录中
 
 ## 👀 Want to learn more?
 
