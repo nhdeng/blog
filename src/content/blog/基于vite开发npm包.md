@@ -6,7 +6,7 @@ tags: ["web", "vite"]
 publishDate: "2023-02-27 08:58"
 author: "dengnanhao"
 authorContact: "dengnanhao@163.com"
-image: { alt: "cover", src: "/images/avatar.jpg" }
+image: { alt: "cover", src: "/images/node.png" }
 ---
 
 # 基于 Vite 构建 React npm 包

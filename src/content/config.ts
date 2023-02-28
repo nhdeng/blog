@@ -19,9 +19,6 @@ const schema = z.object({
 const blogCollection = defineCollection({
   schema,
 });
-const tagCollection = defineCollection({
-  schema,
-});
 export const collections = {
     'blog': blogCollection,
 };

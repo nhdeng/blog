@@ -6,7 +6,7 @@ tags: ["web"]
 publishDate: "2023-02-15 19:20"
 author: "dengnanhao"
 authorContact: "dengnanhao@163.com"
-image: { alt: "cover", src: "/images/avatar.jpg" }
+image: { alt: "cover", src: "/images/demo.png" }
 ---
 
 # 测试 demo 文件

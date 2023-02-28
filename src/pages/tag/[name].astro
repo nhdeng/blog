@@ -1,5 +1,5 @@
 ---
-import { uniq } from 'lodash-es'
+import { uniq } from "lodash-es";
 import Layout from "../../layouts/Layout.astro";
 
 import { getCollection, getEntryBySlug } from "astro:content";
@@ -9,34 +9,39 @@ export async function getStaticPaths() {
   const allBlogPosts = await getCollection("blog", ({ data }) => {
     return data.isDraft !== true;
   });
-  let tags: string[] = []
+  let tags: string[] = [];
   allBlogPosts.forEach((blogPosts) => {
-    tags = [...tags, ...blogPosts.data.tags]
-  })
+    tags = [...tags, ...blogPosts.data.tags];
+  });
   const staticPaths = uniq(tags).map((tag) => ({
-      params: { name: tag },
+    params: { name: tag },
   }));
   return staticPaths;
 }
 // 获取当前路由参数
-const {name} = Astro.params
+const { name } = Astro.params;
 // 获取所有博客
 const allBlogPosts = await getCollection("blog", ({ data }) => {
   return data.isDraft !== true;
 });
 // 筛选出当前标签下的博客
 const blogPosts = allBlogPosts.filter((blogPosts) => {
-  return blogPosts.data.tags.includes(name)
-})
+  return blogPosts.data.tags.includes(name);
+});
 ---
 
 <Layout title={name + "标签下的博客"}>
   <div class="max-w-screen-lg mx-auto pt-6 px-4">
-    {blogPosts.map(item => (
-      <div class="flex items-center justify-between bg-white p-4 shadom-sm mb-1">
-        <div>{item.data.title}</div> 
-        <div class="text-sm text-gray-500">{item.data.publishDate}</div> 
-      </div>
-    ))}
+    {
+      blogPosts.map((item) => (
+        <a
+          href={"/blog/" + item.id}
+          class="flex items-center justify-between bg-white p-4 shadom-sm mb-1"
+        >
+          <div>{item.data.title}</div>
+          <div class="text-sm text-gray-500">{item.data.publishDate}</div>
+        </a>
+      ))
+    }
   </div>
 </Layout>
