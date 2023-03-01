@@ -47,6 +47,7 @@
 ```bash
 # 安装pnpm
 npm install -g pnpm
+
 # 安装依赖
 pnpm i
 
