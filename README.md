@@ -9,4 +9,7 @@ hexo s
 hexo d
 # 清除缓存
 hexo clean
+
+# 通过模板生成文章
+hexo new page --path "redis/base"
 ```
