@@ -96,7 +96,9 @@ help @string
 
 
 ## redis常用数据类型及命令
-### Redis字符串String
+redis常用的数据类型有string、list、hash、set、zset至于其他数据类型可以查看官网。
+### Redis字符串（String）
+String 单值单value
 1. 设置字符串
 ```bash
 set key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL]
@@ -146,7 +148,8 @@ APPEND key value
 GETSET key value
 ```
 
-
+### Redis 列表（List）
+List 单key多value，双端链表的结构，容量是2的32次方减1个元素，大概40多亿，主要功能有push/pop等，一般用在栈、队列、消息队列等场景。left、right都可以插入添加；如果键不存在，创建新的链表；如果键已存在，新增内容；如果值全移除，对应的键也就消失了。
 
 
 
