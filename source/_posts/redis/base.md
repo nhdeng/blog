@@ -221,16 +221,54 @@ hincrby/hincrbyfloat key field value
 ```bash
 hsetnx key field value
 ```
+### Redis 集合（Set）
+单值多value且value不能重复；Redis 的 Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。集合对象的编码可以是 intset 或者 hashtable。 Redis 中集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。 集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。
+1. 向集合中添加一个/多个元素
+```bash
+sadd key member [member...]
+```
+2. 遍历集合key中的所有元素
+```bash
+smembers key 
+```
+3. 判断元素是否存在于集合中
+```bash
+sismember key value 
+```
+4. 移除集合中的元素
+```bash
+srem key value 
+```
+5. 获取集合中元素的个数
+```bash
+scard key
+```
+6. 从集合中随机展现N个元素，元素不删除
+```bash
+srandmember key N 
+```
+6. 从集合中随机弹出N个元素，元素删除
+```bash
+spop key N 
+```
+6. 将集合中A中的某个值移入B集合中
+```bash
+smove A B Avalue 
+```
+7. 集合运算
+```bash
+# A、B集合的差集运算 A-B：只存在于A集合不存在于B集合中的元素
+sdiff key [key...]
 
+# A、B集合的并集运算
+sunion key [key...]
 
+# A、B集合的交集运算 属于A、B两个集合中共有的元素组成的集合
+sinter key [key...]
 
-
-
-
-
-
-
-
+# 给定集合的交集产生的集合的基数，N代表key的个数
+sintercard N key [key...]
+```
 
 
 
