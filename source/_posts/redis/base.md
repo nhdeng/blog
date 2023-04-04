@@ -151,21 +151,76 @@ GETSET key value
 ### Redis 列表（List）
 List 单key多value，双端链表的结构，容量是2的32次方减1个元素，大概40多亿，主要功能有push/pop等，一般用在栈、队列、消息队列等场景。left、right都可以插入添加；如果键不存在，创建新的链表；如果键已存在，新增内容；如果值全移除，对应的键也就消失了。
 
+1. 为列表添加值
+```bash
+LPUSH/RPUSH key value [value...]
+```
+2. 查看列表指定区间元素
+```bash
+#0到-1代表查看所有元素
+lrange key start top
+```
+3. 移出并获取列表的第一个元素
+```bash
+lpop/rpop key 
+```
+4. 按照索引下标获取元素
+```bash
+lindex key index 
+```
+5. 获取列表中元素的个数
+```bash
+llen key
+```
+6. 删除N个数值等于xx的元素
+```bash
+# N为0代表指定值全部删除
+lrem key N xx
+```
+7. 截取指定范围内的值再指定给key
+```bash
+ltrim key start stop
+```
+8. 移除列表的最后一个元素并将该元素添加到另一个列表并返回
+```bash
+rpoplpush 源列表 目标列表
+```
+9. 通过索引设置列表元素中的值
+```bash
+lset key index value
+```
+10. 向列表中插入新值
+```bash
+linsert key before/after 已有值 新值
+```
 
+### Redis 哈希（Hash）
+KV模式，V也是一个键值对。Redis hash 是一个 string 类型的 field（字段） 和 value（值） 的映射表，hash 特别适合用于存储对象。Redis 中每个 hash 可以存储 232 - 1 键值对（40多亿）。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. 基本操作
+```bash
+hset/hget/hmset/hmget/hgetall/hdel key [field value]
+```
+2. 获取某个key中的键值对数量
+```bash
+hlen key
+```
+3. 查看hash指定字段是否存在
+```bash
+hexists key field
+```
+4. 查看hash中所有field或者value
+```bash
+hkeys/hvals key
+```
+5. 为hash表中的指定字段整加/浮点加
+```bash
+hincrby/hincrbyfloat key field value
+```
+6. 不存在就赋值，存在就无效
+```bash
+hsetnx key field value
+```
 
 
 
