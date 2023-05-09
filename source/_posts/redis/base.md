@@ -31,7 +31,7 @@ mkdir -p /app/redis
 docker pull redis
 
 # 运行实例并挂载容器数据卷
-docker run -d --name=redis -host --privileged=true -v /app/redis/redis.conf:/etc/redis/redis.conf -v /app/redis/data:/data redis redis-server /etc/redis/redis.conf
+docker run -d --name=redis --network=host --privileged=true -v /app/redis/redis.conf:/etc/redis/redis.conf -v /app/redis/data:/data redis redis-server /etc/redis/redis.conf
 
 # 进入容器实例
 docker exec -d redis /bin/bash
