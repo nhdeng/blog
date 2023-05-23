@@ -223,7 +223,7 @@ login     # 注册或者登陆一个 docker 源服务器
 
 logout    # 从当前 Docker registry 退出
 
-logs      # 输出当前容器日志信息
+logs      # 输出当前容器日志信息 docker logs -f -n=100 container-id
 
 port      # 查看映射端口对应的容器内部源端口
 
