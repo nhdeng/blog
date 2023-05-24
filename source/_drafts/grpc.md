@@ -105,3 +105,179 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 ```bash
 protoc --proto_path=protos --go-grpc_out=./../ service.proto
 ```
+4. 测试
+- 定义消息类型
+```golang
+// models.proto 添加请求响应
+// 请求参数
+message ProdRequest {
+    int32 id = 1; // 商品ID
+}
+
+// 响应结果
+message ProdResponse {
+    ProdModel result = 1; // 商品信息
+}
+```
+
+- 定义服务
+```golang
+// service.proto
+syntax="proto3";
+
+option go_package = "go-grpc/src/pbfiles";
+
+import "models.proto";
+
+
+service ProdService {
+    rpc GetProd(ProdRequest) returns (ProdResponse);
+}
+```
+- 使用`protoc`工具根据`.proto`文件生成相应的代码文件
+```bash 
+protoc --proto_path=protos --go_out=./../ models.proto
+protoc --proto_path=protos --go-grpc_out=./../ service.proto
+```
+
+- 编写`service`层
+```golang
+// services/ProdService.go
+type ProdService struct {
+	pbfiles.UnimplementedProdServiceServer // 不建议直接使用默认实现的GetProd方法，自行实现GetProd方法
+}
+
+func NewProdService() *ProdService {
+	return &ProdService{}
+}
+
+func (this *ProdService) GetProd(ctx context.Context, req *pbfiles.ProdRequest) (*pbfiles.ProdResponse, error) {
+	rsp := &pbfiles.ProdResponse{
+		Result: &pbfiles.ProdModel{
+			Id:   req.Id,
+			Name: "test",
+		},
+	}
+	return rsp, nil
+}
+```
+- server端
+```golang
+func main() {
+	// 创建一个 gRPC 服务器实例
+	myserver := grpc.NewServer()
+	// 注册你的服务实现到服务器上
+	pbfiles.RegisterProdServiceServer(myserver, services.NewProdService())
+	// 监听8080
+	lis, _ := net.Listen("tcp", ":8080")
+	// 启动服务器，监听指定的网络地址
+	if err := myserver.Serve(lis); err != nil {
+		log.Fatal(err)
+	}
+}
+```
+- 客户端
+```golang
+func main() {
+	// grpc.DialContext 是 gRPC 客户端用于建立与 gRPC 服务器的连接的方法
+	// 不校验证书
+	client, err := grpc.DialContext(context.Background(), "localhost:8080", grpc.WithInsecure())
+	if err != nil {
+		log.Fatal(err)
+	}
+	req := &pbfiles.ProdRequest{Id: 1002}
+	res := &pbfiles.ProdResponse{}
+	client.Invoke(context.Background(), "/ProdService/GetProd", req, res)
+	fmt.Println(res.Result)
+}
+```
+
+### 证书认证
+SAN (Subject Alternative Name) 证书是一种用于加密通信的数字证书，其中包含了多个主体名称（Subject Name）的备用选项。SAN 证书可以用于解决传统的 X.509 数字证书中的一个限制，即每个证书只能对应一个主体名称。
+
+传统的 X.509 数字证书在签发时需要指定一个主体名称，例如域名或者 IP 地址。而当一个服务器需要支持多个域名或者 IP 地址时，传统证书的方式就无法满足需求。这时就可以使用 SAN 证书来解决这个问题。
+
+SAN 证书允许在一个证书中指定多个主体名称，可以是域名、IP 地址或者其他标识符。这样，服务器在进行加密通信时就可以使用同一个证书，同时支持多个主体名称的验证。
+
+SAN 证书的主要优点是灵活性和可扩展性。它可以适应多种场景，例如多域名共享同一个证书、多个子域名、多个 IP 地址等。SAN 证书在实际应用中广泛使用，特别是在虚拟主机环境或者多站点共享证书的情况下。
+
+总结而言，SAN 证书是一种具有多个主体名称备选项的数字证书，用于解决传统证书单一主体名称的限制，提供更灵活和可扩展的加密通信解决方案。
+
+#### 单向认证
+1. `ca`根证书
+```bash
+# 生成私钥文件
+openssl genrsa -out ca.key 4096
+# 生成ca根证书
+openssl req -new -x509 -days 3650 -key ca.key -out ca.crt
+```
+2. `sun`证书
+```bash
+#修改openssl.cnf配置，配置文件位于/etc/pki/tls/openssl.cnf
+#在[ req ]下新增
+req_extensions = v3_req
+#[ v3_req ]新增
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = *.grpc.dengnanhao.com
+DNS.2 = *.dengnanhao.com
+
+#同步修改window本地hosts文件添加
+127.0.0.1 test.grpc.dengnanhao.com
+```
+3. 服务端证书
+- 生成私钥
+```bash
+openssl genpkey -algorithm RSA -out server.key
+```
+- 生成证书请求文件
+```bash
+openssl req -new -nodes -key server.key -out server.csr -days 3650 -subj "/C=cn/OU=dengnanhao/O=dengnanhao/CN=test.grpc.dengnanhao.com" -config ./openssl.cnf -extensions v3_req
+# 查看请求文件DNS是否正确
+openssl req -noout -text -in server.csr
+```
+4. 签发证书
+```bash 
+openssl x509 -req -days 3650 -in server.csr -out server.pem -CA ./ca.crt -CAkey ./ca.key -CAcreateserial -extfile ./openssl.cnf -extensions v3_req
+```
+5. 将生成的`server.pem` `server.key`添加至项目目录 `certs`
+6. 修改服务端代码
+```golang
+func main() {
+	// 创建证书
+	creds, err := credentials.NewServerTLSFromFile("certs/server.pem", "certs/server.key")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// 创建一个 gRPC 服务器实例
+	myserver := grpc.NewServer(grpc.Creds(creds))
+	// 注册你的服务实现到服务器上
+	pbfiles.RegisterProdServiceServer(myserver, services.NewProdService())
+	// 监听8080
+	lis, _ := net.Listen("tcp", ":8080")
+	// 启动服务器，监听指定的网络地址
+	if err := myserver.Serve(lis); err != nil {
+		log.Fatal(err)
+	}
+}
+```
+7. 修改客户端代码
+```golang
+func main() {
+	creds, err := credentials.NewClientTLSFromFile("certs/server.pem", "test.grpc.dengnanhao.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// grpc.DialContext 是 gRPC 客户端用于建立与 gRPC 服务器的连接的方法
+	// 校验证书 grpc.WithTransportCredentials(creds)
+	client, err := grpc.DialContext(context.Background(), "test.grpc.dengnanhao.com:8080", grpc.WithTransportCredentials(creds))
+	if err != nil {
+		log.Fatal(err)
+	}
+	req := &pbfiles.ProdRequest{Id: 1002}
+	res := &pbfiles.ProdResponse{}
+	client.Invoke(context.Background(), "/ProdService/GetProd", req, res)
+	fmt.Println(res.Result)
+}
+```
