@@ -187,7 +187,10 @@ func main() {
 	}
 	req := &pbfiles.ProdRequest{Id: 1002}
 	res := &pbfiles.ProdResponse{}
-	client.Invoke(context.Background(), "/ProdService/GetProd", req, res)
+	err = client.Invoke(context.Background(), "/ProdService/GetProd", req, res)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println(res.Result)
 }
 ```
@@ -203,7 +206,7 @@ SAN 证书的主要优点是灵活性和可扩展性。它可以适应多种场�
 
 总结而言，SAN 证书是一种具有多个主体名称备选项的数字证书，用于解决传统证书单一主体名称的限制，提供更灵活和可扩展的加密通信解决方案。
 
-#### 单向认证
+#### 双向认证
 1. `ca`根证书
 ```bash
 # 生成私钥文件
@@ -211,7 +214,7 @@ openssl genrsa -out ca.key 4096
 # 生成ca根证书
 openssl req -new -x509 -days 3650 -key ca.key -out ca.crt
 ```
-2. `sun`证书
+2. `SAN`证书
 ```bash
 #修改openssl.cnf配置，配置文件位于/etc/pki/tls/openssl.cnf
 #在[ req ]下新增
@@ -237,12 +240,12 @@ openssl req -new -nodes -key server.key -out server.csr -days 3650 -subj "/C=cn/
 # 查看请求文件DNS是否正确
 openssl req -noout -text -in server.csr
 ```
-4. 签发证书
+- 签发证书
 ```bash 
 openssl x509 -req -days 3650 -in server.csr -out server.pem -CA ./ca.crt -CAkey ./ca.key -CAcreateserial -extfile ./openssl.cnf -extensions v3_req
 ```
-5. 将生成的`server.pem` `server.key`添加至项目目录 `certs`
-6. 修改服务端代码
+- 将生成的`server.pem` `server.key`添加至项目目录 `certs`
+- 修改服务端代码
 ```golang
 func main() {
 	// 创建证书
@@ -262,7 +265,7 @@ func main() {
 	}
 }
 ```
-7. 修改客户端代码
+- 修改客户端代码
 ```golang
 func main() {
 	creds, err := credentials.NewClientTLSFromFile("certs/server.pem", "test.grpc.dengnanhao.com")
@@ -281,3 +284,54 @@ func main() {
 	fmt.Println(res.Result)
 }
 ```
+
+4. 客户端证书
+- 生成私钥
+```bash
+openssl genpkey -algorithm RSA -out client.key
+```
+- 生成证书请求文件
+```bash
+openssl req -new -key client.key -subj "/CN=myclient" -out client.csr
+```
+- 签发证书
+```bash 
+openssl x509 -req -in client.csr -CA ./ca.crt -CAkey ./ca.key -CAcreateserial -days 3650 -out client.crt
+``` 
+
+- 修改客户端代码
+```golang
+func main() {
+	// 可以作为全局变量，放入一个启动文件中
+	cert, err := tls.LoadX509KeyPair("certs/client.crt", "certs/client.key")
+	if err != nil {
+		log.Fatal(err)
+	}
+	certPool := x509.NewCertPool()
+	ca, err := ioutil.ReadFile("certs/ca.crt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	certPool.AppendCertsFromPEM(ca)
+	creds := credentials.NewTLS(&tls.Config{
+		Certificates: []tls.Certificate{cert},
+		ServerName:   "test.grpc.dengnanhao.com",
+		RootCAs:      certPool,
+	})
+
+	// grpc.DialContext 是 gRPC 客户端用于建立与 gRPC 服务器的连接的方法
+	// 校验证书 grpc.WithTransportCredentials(creds)
+	client, e := grpc.DialContext(context.Background(), "test.grpc.dengnanhao.com:8080", grpc.WithTransportCredentials(creds))
+	if e != nil {
+		log.Fatal(e)
+	}
+	req := &pbfiles.ProdRequest{Id: 1002}
+	res := &pbfiles.ProdResponse{}
+	err = client.Invoke(context.Background(), "/ProdService/GetProd", req, res)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(res.Result)
+}
+```
+
