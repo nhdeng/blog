@@ -36,7 +36,11 @@ tags: ["linux", "centos", "vmware", "network"]
 
 ![网络共享设置](../images/linux/network.png)
 
-4. 设置静态IP地址
+4. 右击虚拟机名称，选择【设置】更改【网络适配器】选择【自定义】中的VMnet2
+
+![网络适配器](../images/linux/setting.png)
+
+5. 设置静态IP地址
 - 打开虚拟机进入centos系统
 - 配置网络
 ```bash
@@ -57,7 +61,7 @@ DNS1=114.114.114.114
 DNS2=8.8.8.8
 ```
 
-5. 重启网络服务
+6. 重启网络服务
 ```bash
 systemctl restart network
 ```
