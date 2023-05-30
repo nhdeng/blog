@@ -1,7 +1,12 @@
 ---
 title: grpc
-tags: ["go", "grpc"]
+tags:
+  - go
+  - grpc
+date: 2023-05-25 10:10:28
+excerpt: gRPC 是一种高性能、跨语言、跨平台的 RPC 框架，通过使用 Protobuf 进行接口定义和数据序列化，提供了简单易用的 API 和强大的功能，适用于构建分布式系统、微服务架构和高性能的客户端-服务器通信。
 ---
+
 ## Protobuf
 - Protocol Buffers（简称为 Protobuf）是一种语言无关、平台无关、可扩展的数据序列化格式，由 Google 开发并开源。它可以用于结构化数据的序列化和反序列化，用于数据存储、通信协议等领域。
 - Protobuf 使用 .proto 文件定义数据结构，然后使用特定的编译器将这些 .proto 文件编译成相应语言的源代码，从而在程序中使用生成的代码来进行数据的序列化和反序列化。它支持多种编程语言，包括但不限于 C++, Java, Python, Go, JavaScript 等。

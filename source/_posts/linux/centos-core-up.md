@@ -1,6 +1,7 @@
 ---
 title:  CentOS 的内核升级
 tags: ["linux", "centos", "docker"]
+excerpt: 因为需要安装docker，对linux内核版本有所要求，本文记录在centos7系统中升级linux内核的方法，仅供参考
 ---
 
 要将 CentOS 的内核升级，您可以按照以下步骤进行操作：
