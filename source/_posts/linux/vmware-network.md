@@ -1,6 +1,7 @@
 ---
 title: VMware虚拟机静态IP配置
 tags: ["linux", "centos", "vmware", "network"]
+excerpt: 虚拟机NAT模式网络配置
 ---
 # VMware静态IP配置
 本教程主要说明在windows虚拟机centos7.x系统上如何配置网络连接NAT模式
